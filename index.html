@@ -182,67 +182,94 @@
     </section>
     
     <script>
-    const playlist = [
-            { title: "Fireflies", artist: "Owl City", file: "audio/fireflies.mp3", cover: "images/covers/fireflies.png" }
-        ];
+const playlist = [
+    { title: "Fireflies", artist: "Owl City", file: "audio/fireflies.mp3", cover: "images/covers/fireflies.png" }
+];
 
-        let currentIndex = Math.floor(Math.random() * playlist.length);
-        let isPlaying = false;
-        const audio = document.getElementById('audio-player');
-        const progressBar = document.getElementById('progress-bar');
-        const timeDisplay = document.getElementById('time-display');
-        const titleEl = document.getElementById('song-title');
-        const artistEl = document.getElementById('artist-name');
-        const artEl = document.getElementById('album-art');
+let currentIndex = Math.floor(Math.random() * playlist.length);
+let isPlaying = false;
 
-        function loadSong(index) {
-            if(!audio) return;
-            const song = playlist[index];
-            titleEl.innerText = song.title;
-            artistEl.innerText = song.artist;
-            artEl.src = song.cover;
-            audio.src = song.file;
-            progressBar.style.width = '0%';
-            timeDisplay.innerText = "0:00 / --:--";
-            audio.onloadedmetadata = () => {
-                timeDisplay.innerText = `0:00 / ${formatTime(audio.duration)}`;
-                if (isPlaying) audio.play().catch(e => console.log("Auto-play prevented"));
-            };
+const audio = document.getElementById('audio-player');
+const progressBar = document.getElementById('progress-bar');
+const timeDisplay = document.getElementById('time-display');
+const titleEl = document.getElementById('song-title');
+const artistEl = document.getElementById('artist-name');
+const artEl = document.getElementById('album-art');
+const playBtn = document.getElementById('play-btn');
+const playIcon = document.getElementById('play-icon');
+
+function loadSong(index) {
+    if(!audio) return;
+    const song = playlist[index];
+    titleEl.innerText = song.title;
+    artistEl.innerText = song.artist;
+    artEl.src = song.cover;
+    audio.src = song.file;
+    progressBar.style.width = '0%';
+    timeDisplay.innerText = "0:00 / --:--";
+    isPlaying = false;
+    updatePlayIcon();
+    audio.onloadedmetadata = () => {
+        timeDisplay.innerText = `0:00 / ${formatTime(audio.duration)}`;
+        if (isPlaying) audio.play().catch(e => console.log("Auto-play prevented"));
+    };
+}
+
+function togglePlay() {
+    if(!audio) return;
+    if(isPlaying) {
+        audio.pause();
+    } else {
+        audio.play().catch(e => console.log("Auto-play prevented"));
+    }
+    isPlaying = !isPlaying;
+    updatePlayIcon();
+}
+
+function updatePlayIcon() {
+    if(isPlaying) {
+        playIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>'; // pause icon
+    } else {
+        playIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M5 3v18l15-9L5 3z"/>'; // play icon
+    }
+}
+
+if(audio) {
+    audio.ontimeupdate = () => {
+        if(audio.duration) {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = `${progress}%`;
+            timeDisplay.innerText = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
         }
+    };
 
-        function togglePlay() {
-            if(!audio) return;
-            if (isPlaying) { audio.pause(); } else { audio.play(); }
-            isPlaying = !isPlaying;
-        }
-
-        if(audio) {
-            audio.ontimeupdate = () => {
-                if (audio.duration) {
-                    const progress = (audio.currentTime / audio.duration) * 100;
-                    progressBar.style.width = `${progress}%`;
-                    timeDisplay.innerText = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
-                }
-            };
-            audio.onended = () => {
-                let nextIndex;
-                do { nextIndex = Math.floor(Math.random() * playlist.length); }
-                while (nextIndex === currentIndex && playlist.length > 1);
-                currentIndex = nextIndex;
-                loadSong(currentIndex);
-                audio.play();
-            };
-        }
-
-        function formatTime(seconds) {
-            if (isNaN(seconds)) return "0:00";
-            const m = Math.floor(seconds / 60);
-            const s = Math.floor(seconds % 60);
-            return `${m}:${s < 10 ? '0' : ''}${s}`;
-        }
-
+    audio.onended = () => {
+        let nextIndex;
+        do {
+            nextIndex = Math.floor(Math.random() * playlist.length);
+        } while(nextIndex === currentIndex && playlist.length > 1);
+        currentIndex = nextIndex;
         loadSong(currentIndex);
-        </script>
+        audio.play();
+        isPlaying = true;
+        updatePlayIcon();
+    };
+}
+
+function formatTime(seconds) {
+    if (isNaN(seconds)) return "0:00";
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+}
+
+if(playBtn) {
+    playBtn.addEventListener('click', togglePlay);
+}
+
+loadSong(currentIndex);
+</script>
+
 
     <section id="reviews" class="py-12 sm:py-20 px-4 sm:px-6 bg-[#0a0a0a]">
         <div class="max-w-6xl mx-auto">
