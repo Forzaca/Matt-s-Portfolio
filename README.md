@@ -5,11 +5,7 @@ A modern, customizable portfolio website with floating snow effects and a compre
 ## 🎨 Features
 
 ### Main Portfolio Page (index.html)
-- ❄️ **Floating Snow Effect** - Beautiful animated snowflakes in the background
-- 📸 **Portfolio Gallery** - Showcase your work with beautiful image grid
-- ⭐ **Reviews Section** - Display client testimonials with star ratings
-- 📱 **Fully Responsive** - Works perfectly on mobile, tablet, and desktop
-- 🎯 **View Only** - Visitors can only view, not edit content
+
 
 ### Admin Panel (admin.html)
 - 🎨 **Profile Tab**:
