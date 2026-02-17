@@ -12,25 +12,28 @@ const PortfolioConfig = {
                 footerText: '© 2026 matthimself. All rights reserved.',
                 
                 // Images
-                bannerImage: 'images/banners/wrdjudah.png',
-                profileImage: 'images/pfp/wrdjudah.jpg',
-                serverIcon: 'images/logos/judahscustoms.png',
+                bannerImage: 'images/banners/mattbanner.png',
+                profileImage: 'images/pfp/mattpfp.png',
+                serverIcon: 'images/logos/bigskyicon.png',
                 
                 // Discord
-                discordInvite: 'https://discord.gg/UXpQ8RTtQq',
-                discordInviteCode: 'UXpQ8RTtQq',
+                discordInvite: 'https://discord.gg/HCcPuGabRE',
+                discordInviteCode: 'HCcPuGabRE',
                 
                 // Spotify/Music
                 spotifyUrl: 'https://open.spotify.com/track/3DamFFqW32WihKkTVlwTYQ',
-                songTitle: 'Search & Rescue',
-                artistName: 'Drake',
-                albumArt: 'images/covers/search-rescue.jpg',
+                songTitle: 'Fireflies',
+                artistName: 'Owl City',
+                albumArt: 'images/covers/fireflies.png',
                 autoplay: true,
                 
                 // Portfolio Images
                 portfolioImages: [
-                    'https://raw.githubusercontent.com/FizzyThyFemboy/JudahPast/main/image1.png',
-                    'https://raw.githubusercontent.com/FizzyThyFemboy/JudahPast/main/image2.png',
+                    'https://matthimself.vercel.app/images/portfolio/bscbanner.png',
+                    'https://matthimself.vercel.app/images/portfolio/flrpbanner.png',
+                    'https://matthimself.vercel.app/images/portfolio/takecareposter.png',
+                    'https://matthimself.vercel.app/images/portfolio/bsrgen.png',
+                    'https://matthimself.vercel.app/images/portfolio/flowstatebanner.png',
                 ],
                 
                 // Reviews
