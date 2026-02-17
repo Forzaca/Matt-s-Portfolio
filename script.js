@@ -22,31 +22,7 @@ if (mobileMenuBtn && mobileMenu) {
     });
 }
 
-// Create Floating Snow Effect
-function createSnowflake() {
-    const snowContainer = document.getElementById('snow-container');
-    if (!snowContainer) return;
-    
-    const snowflake = document.createElement('div');
-    snowflake.classList.add('snowflake');
-    snowflake.innerHTML = '❄';
-    snowflake.style.left = Math.random() * window.innerWidth + 'px';
-    snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
-    snowflake.style.animationDuration = (Math.random() * 3 + 7) + 's';
-    snowflake.style.animationDelay = Math.random() * 5 + 's';
-    
-    snowContainer.appendChild(snowflake);
-    
-    setTimeout(() => {
-        snowflake.remove();
-    }, 15000);
-}
 
-// Create snowflakes periodically
-setInterval(createSnowflake, 300);
-for (let i = 0; i < 20; i++) {
-    setTimeout(createSnowflake, i * 100);
-}
 
 // Local Storage Management
 const STORAGE_KEYS = {
