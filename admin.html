@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='50%' x='50%' font-size='48' text-anchor='middle' dominant-baseline='central'>🔐</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Admin Panel - matthimself</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444; }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-black text-white font-sans min-h-screen">
+    <!-- Login Screen -->
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md">
+            <div class="bg-[#111] border border-white/10 rounded-2xl p-8 shadow-2xl">
+                <div class="text-center mb-8">
+                    <div class="text-6xl mb-4">🔐</div>
+                    <h1 class="text-2xl font-bold mb-2">Admin Panel</h1>
+                    <p class="text-gray-400 text-sm">Enter password to continue</p>
+                </div>
+                
+                <form id="login-form" class="space-y-4">
+                    <div>
+                        <input 
+                            type="password" 
+                            id="password-input" 
+                            placeholder="Enter password" 
+                            class="w-full px-4 py-3 bg-black border border-white/10 rounded-xl focus:border-blue-500 focus:outline-none text-white"
+                            autocomplete="off"
+                        >
+                    </div>
+                    
+                    <button 
+                        type="submit" 
+                        class="w-full px-4 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-medium transition-colors"
+                    >
+                        Login
+                    </button>
+                    
+                    <div id="error-message" class="hidden text-red-500 text-sm text-center mt-2"></div>
+                    
+                    <div class="mt-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
+                        <p class="text-xs text-blue-400 text-center">
+                            Default password: <span class="font-mono font-bold">admin123</span><br>
+                            <span class="text-gray-500">Change this in the settings!</span>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="hidden">
+        <!-- Header -->
+        <nav class="bg-[#111] border-b border-white/10 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🥂</span>
+                        <h1 class="text-xl font-bold">Admin Panel</h1>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <a href="index.html" target="_blank" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors">
+                            View Site
+                        </a>
+                        <button id="logout-btn" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded-lg text-sm transition-colors">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Tabs -->
+        <div class="bg-[#0a0a0a] border-b border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <div class="flex gap-4 overflow-x-auto">
+                    <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-blue-500 text-blue-500" data-tab="basic">
+                        Basic Info
+                    </button>
+                    <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white transition-colors" data-tab="images">
+                        Images
+                    </button>
+                    <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white transition-colors" data-tab="portfolio">
+                        Portfolio
+                    </button>
+                    <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white transition-colors" data-tab="reviews">
+                        Reviews
+                    </button>
+                    <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white transition-colors" data-tab="pricing">
+                        Pricing
+                    </button>
+                    <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white transition-colors" data-tab="settings">
+                        Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+            <!-- Basic Info Tab -->
+            <div id="basic-tab" class="tab-content active space-y-6">
+                <h2 class="text-2xl font-bold mb-6">Basic Information</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-gray-300">Username</label>
+                        <input id="username-input" type="text" class="w-full px-4 py-2 bg-[#111] border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none">
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-gray-300">Subtitle</label>
+                        <input id="subtitle-input" type="text" class="w-full px-4 py-2 bg-[#111] border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none">
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-gray-300">Nav Title</label>
+                        <input id="navtitle-input" type="text" class="w-full px-4 py-2 bg-[#111] border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none">
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-gray-300">Footer Text</label>
+                        <input id="footer-input" type="text" class="w-full px-4 py-2 bg-[#111] border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none">
+                    </div>
+                </div>
+                
+                <button onclick="saveBasicInfo()" class="px-6 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition-colors">
+                    Save Changes
+                </button>
+            </div>
+
+            <!-- Images Tab -->
+            <div id="images-tab" class="tab-content space-y-6">
+                <h2 class="text-2xl font-bold mb-6">Images & Icons</h2>
+                
+                <div class="space-y-6">
+                    <div class="bg-[#111] border border-white/10 rounded-xl p-6">
+                        <h3 class="font-bold mb-4">Banner Image</h3>
+                        <input id="banner-image-input" type="text" placeholder="Enter image URL" class="w-full px-4 py-2 bg-black border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none mb-3">
+                        <div id="banner-preview" class="w-full h-48 bg-black rounded-lg overflow-hidden border border-white/10">
+                            <img src="" alt="Banner Preview" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    
+                    <div class="bg-[#111] border border-white/10 rounded-xl p-6">
+                        <h3 class="font-bold mb-4">Profile Image</h3>
+                        <input id="profile-image-input" type="text" placeholder="Enter image URL" class="w-full px-4 py-2 bg-black border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none mb-3">
+                        <div id="profile-preview" class="w-32 h-32 bg-black rounded-full overflow-hidden border border-white/10 mx-auto">
+                            <img src="" alt="Profile Preview" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    
+                    <div class="bg-[#111] border border-white/10 rounded-xl p-6">
+                        <h3 class="font-bold mb-4">Server Icon</h3>
+                        <input id="server-icon-input" type="text" placeholder="Enter image URL" class="w-full px-4 py-2 bg-black border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none mb-3">
+                        <div id="server-preview" class="w-24 h-24 bg-black rounded-lg overflow-hidden border border-white/10 mx-auto">
+                            <img src="" alt="Server Preview" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="saveImages()" class="px-6 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition-colors">
+                    Save Images
+                </button>
+            </div>
+
+            <!-- Portfolio Tab -->
+            <div id="portfolio-tab" class="tab-content space-y-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold">Portfolio Images</h2>
+                    <button onclick="addPortfolioImage()" class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg text-sm">
+                        + Add Image
+                    </button>
+                </div>
+                
+                <div id="portfolio-images-list" class="space-y-3">
+                    <!-- Portfolio images will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Reviews Tab -->
+            <div id="reviews-tab" class="tab-content space-y-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold">Client Reviews</h2>
+                    <button onclick="addReview()" class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg text-sm">
+                        + Add Review
+                    </button>
+                </div>
+                
+                <div id="reviews-list" class="space-y-4">
+                    <!-- Reviews will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Pricing Tab -->
+            <div id="pricing-tab" class="tab-content space-y-6">
+                <h2 class="text-2xl font-bold mb-6">Pricing Management</h2>
+                
+                <div class="mb-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold">Packages</h3>
+                        <button onclick="addPackage()" class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg text-sm">
+                            + Add Package
+                        </button>
+                    </div>
+                    <div id="packages-list" class="space-y-4">
+                        <!-- Packages will be loaded here -->
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold">Individual Services</h3>
+                        <button onclick="addService()" class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg text-sm">
+                            + Add Service
+                        </button>
+                    </div>
+                    <div id="services-list" class="space-y-3">
+                        <!-- Services will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="tab-content space-y-6">
+                <h2 class="text-2xl font-bold mb-6">Settings</h2>
+                
+                <div class="space-y-6">
+                    <div class="bg-[#111] border border-white/10 rounded-xl p-6">
+                        <h3 class="font-bold mb-4">Music Settings</h3>
+                        <div class="space-y-4">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-300">Spotify URL</label>
+                                <input id="spotify-url-input" type="text" placeholder="https://open.spotify.com/track/..." class="w-full px-4 py-2 bg-black border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-300">Song Title</label>
+                                <input id="song-title-input" type="text" class="w-full px-4 py-2 bg-black border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-300">Artist Name</label>
+                                <input id="artist-name-input" type="text" class="w-full px-4 py-2 bg-black border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-300">Album Art URL</label>
+                                <input id="album-art-input" type="text" class="w-full px-4 py-2 bg-black border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input id="autoplay-input" type="checkbox" class="w-4 h-4">
+                                <label class="text-sm font-medium text-gray-300">Auto-open Spotify on page load</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-[#111] border border-white/10 rounded-xl p-6">
+                        <h3 class="font-bold mb-4">Discord Settings</h3>
+                        <div class="space-y-4">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-300">Discord Invite Link</label>
+                                <input id="discord-invite-input" type="text" placeholder="https://discord.gg/..." class="w-full px-4 py-2 bg-black border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-300">Discord Invite Code</label>
+                                <input id="discord-code-input" type="text" placeholder="UXpQ8RTtQq" class="w-full px-4 py-2 bg-black border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none">
+                                <p class="text-xs text-gray-500">Just the code part after discord.gg/</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-6">
+                        <h3 class="font-bold mb-4 text-red-400">Security</h3>
+                        <div class="space-y-4">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-300">Change Admin Password</label>
+                                <input id="new-password-input" type="password" placeholder="Enter new password" class="w-full px-4 py-2 bg-black border border-white/10 rounded-lg focus:border-blue-500 focus:outline-none">
+                            </div>
+                            <button onclick="changePassword()" class="px-6 py-2 bg-red-600 hover:bg-red-500 rounded-lg font-medium transition-colors">
+                                Change Password
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="saveSettings()" class="px-6 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition-colors">
+                    Save Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
